@@ -1,21 +1,24 @@
-﻿namespace UnityTest
+﻿using Unity;
+
+namespace UnityTest
 {
     public class MyFactory : IMyFactory
     {
-        private readonly IMyType _myobject;
-        public MyFactory(IMyType myobject)
+        private readonly IUnityContainer _container;
+        public MyFactory(IUnityContainer container)
         {
-            _myobject = myobject;
+            _container = container;
         }
         public IMyType Create()
         {
-            return _myobject; 
+            return _container.Resolve<IMyType>(); 
         }
         public IMyType Create(string name, int number)
         {
-            _myobject.Name = name;
-            _myobject.Number = number;
-            return Create();
+            var obj = _container.Resolve<IMyType>();
+            obj.Name = name;
+            obj.Number = number;
+            return obj;
         }
     }
 }
